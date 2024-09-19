@@ -5,15 +5,20 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-app.use(cors());
+// Use CORS to allow requests from other origins
+app.use(cors({
+    origin: 'http://127.0.0.1:3000', 'https://contact-form-backend-roan.vercel.app/' // or 'http://localhost:3000'
+}));
 app.use(express.json());
 
 const filePath = path.join(__dirname, 'data.json');
 
+// Initialize the data file if it doesn't exist
 if (!fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, '[]', 'utf8');
 }
 
+// Handle form submission
 app.post('/save-data', (req, res) => {
     const formData = req.body;
 
@@ -35,6 +40,7 @@ app.post('/save-data', (req, res) => {
     });
 });
 
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
