@@ -7,7 +7,7 @@ const app = express();
 
 // Use CORS to allow requests from other origins
 app.use(cors({
-    origin: 'http://127.0.0.1:3000', 'https://contact-form-backend-roan.vercel.app/' // or 'http://localhost:3000'
+    origin: ['http://127.0.0.1:3000', 'https://contact-form-backend-jj5v06od8-alvin-welshs-projects.vercel.app'] // Allow both origins
 }));
 app.use(express.json());
 
@@ -17,6 +17,9 @@ const filePath = path.join(__dirname, 'data.json');
 if (!fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, '[]', 'utf8');
 }
+
+// Handle preflight requests
+app.options('/save-data', cors()); // Handle OPTIONS requests for CORS
 
 // Handle form submission
 app.post('/save-data', (req, res) => {
