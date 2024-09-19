@@ -7,7 +7,7 @@ const app = express();
 
 // Use CORS to allow requests from other origins
 app.use(cors({
-    origin: '*',
+   origin: 'http://127.0.0.1:3000'
 }));
 
 app.use(express.json());
