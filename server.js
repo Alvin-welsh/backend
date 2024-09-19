@@ -7,8 +7,9 @@ const app = express();
 
 // Use CORS to allow requests from other origins
 app.use(cors({
-    origin: ['http://127.0.0.1:3000', 'https://contact-form-backend-jj5v06od8-alvin-welshs-projects.vercel.app'] // Allow both origins
+    origin: '*',s
 }));
+
 app.use(express.json());
 
 const filePath = path.join(__dirname, 'data.json');
