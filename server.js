@@ -7,7 +7,7 @@ const app = express();
 
 // Use CORS to allow requests from other origins
 app.use(cors({
-    origin: '*',s
+    origin: '*',
 }));
 
 app.use(express.json());
