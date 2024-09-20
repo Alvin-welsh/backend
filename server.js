@@ -12,16 +12,19 @@ const allowedOrigins = [
     'https://alvinwelsh.vercel.app', // Deployed frontend
 ];
 
+// Simplified CORS setup
 app.use(cors({
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'The CORS policy does not allow access from the specified origin.';
-            return callback(new Error(msg), false);
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
         }
-        return callback(null, true);
-    }
+    },
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'], // Ensure headers are allowed
+    credentials: true
 }));
 
 app.use(express.json());
@@ -32,9 +35,6 @@ const filePath = path.join(__dirname, 'data.json');
 if (!fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, '[]', 'utf8');
 }
-
-// Handle preflight requests (for OPTIONS method)
-app.options('/save-data', cors()); // Handle OPTIONS requests for CORS
 
 // Handle form submission
 app.post('/save-data', (req, res) => {
