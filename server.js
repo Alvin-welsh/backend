@@ -7,7 +7,7 @@ const app = express();
 
 // Define allowed origins for CORS
 const allowedOrigins = [
-    'http://127.0.0.1:3000', // Local frontend
+    'http://127.0.0.1:3001', // Local frontend
     'http://localhost:3000', // Local frontend alternative
     'https://alvinwelsh.vercel.app', // Deployed frontend
   ];
