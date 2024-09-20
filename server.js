@@ -5,9 +5,23 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-// Use CORS to allow requests from other origins
-app.use(cors({
-   origin: 'http://127.0.0.1:3000'
+// Define allowed origins for CORS
+const allowedOrigins = [
+    'http://127.0.0.1:3000', // Local frontend
+    'http://localhost:3000', // Local frontend alternative
+    'https://alvinwelsh.vercel.app', // Deployed frontend
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = 'The CORS policy does not allow access from the specified origin.';
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    }
 }));
 
 app.use(express.json());
