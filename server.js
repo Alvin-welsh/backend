@@ -10,17 +10,17 @@ const allowedOrigins = [
     'http://127.0.0.1:3001', // Local frontend
     'http://localhost:3000', // Local frontend alternative
     'https://alvinwelsh.vercel.app', // Deployed frontend
-  ];
-  
-  app.use(cors({
+];
+
+app.use(cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = 'The CORS policy does not allow access from the specified origin.';
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy does not allow access from the specified origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
     }
 }));
 
@@ -33,7 +33,7 @@ if (!fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, '[]', 'utf8');
 }
 
-// Handle preflight requests
+// Handle preflight requests (for OPTIONS method)
 app.options('/save-data', cors()); // Handle OPTIONS requests for CORS
 
 // Handle form submission
